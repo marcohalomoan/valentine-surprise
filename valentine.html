@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --rose-petal: #ffd6e8;
+            --deep-rose: #ff6b9d;
+            --romantic-red: #e63946;
+            --soft-cream: #fff8f0;
+            --gold-accent: #d4af37;
+            --shadow-soft: rgba(230, 57, 70, 0.15);
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, var(--soft-cream) 0%, var(--rose-petal) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts animation */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: var(--deep-rose);
+            opacity: 0;
+            animation: float-up 15s infinite ease-in-out;
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px;
+            max-width: 900px;
+            width: 90%;
+        }
+
+        .photo-carousel {
+            margin-bottom: 40px;
+            position: relative;
+            height: 350px;
+            perspective: 1000px;
+        }
+
+        .photo-track {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-card {
+            position: absolute;
+            width: 280px;
+            height: 320px;
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 20px 60px var(--shadow-soft);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .photo-caption {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--romantic-red);
+            font-style: italic;
+        }
+
+        .photo-card:nth-child(1) {
+            transform: translateX(-200px) translateZ(-100px) rotateY(15deg) scale(0.85);
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        .photo-card:nth-child(2) {
+            transform: translateX(0) translateZ(0) rotateY(0deg) scale(1);
+            z-index: 3;
+            opacity: 1;
+        }
+
+        .photo-card:nth-child(3) {
+            transform: translateX(200px) translateZ(-100px) rotateY(-15deg) scale(0.85);
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        .photo-card.hide-left {
+            transform: translateX(-400px) translateZ(-200px) rotateY(25deg) scale(0.7);
+            opacity: 0;
+            z-index: 0;
+        }
+
+        .photo-card.hide-right {
+            transform: translateX(400px) translateZ(-200px) rotateY(-25deg) scale(0.7);
+            opacity: 0;
+            z-index: 0;
+        }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--deep-rose);
+            opacity: 0.3;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            opacity: 1;
+            transform: scale(1.3);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            color: var(--romantic-red);
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px var(--shadow-soft);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .question {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 50px;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .button-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            min-height: 150px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        button {
+            font-family: 'Crimson Text', serif;
+            font-size: 1.5em;
+            font-weight: 600;
+            padding: 20px 60px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px var(--shadow-soft);
+            position: relative;
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, var(--romantic-red), var(--deep-rose));
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(230, 57, 70, 0.4);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
+            color: #666;
+            position: absolute;
+            transition: all 0.15s ease-out;
+        }
+
+        #noBtn:hover {
+            background: linear-gradient(135deg, #d0d0d0, #e5e5e5);
+        }
+
+        .success-message {
+            display: none;
+            animation: celebrationBounce 0.8s ease-out;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes celebrationBounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.1);
+            }
+            50% {
+                transform: scale(0.95);
+            }
+            75% {
+                transform: scale(1.05);
+            }
+        }
+
+        .success-message h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            color: var(--romantic-red);
+            margin-bottom: 20px;
+        }
+
+        .success-message p {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--deep-rose);
+            position: absolute;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            
+            .question {
+                font-size: 1.3em;
+            }
+            
+            .photo-carousel {
+                height: 280px;
+            }
+            
+            .photo-card {
+                width: 220px;
+                height: 260px;
+            }
+            
+            .photo-card img {
+                height: 190px;
+            }
+            
+            button {
+                font-size: 1.2em;
+                padding: 15px 40px;
+            }
+            
+            .button-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-bg" id="heartBg"></div>
+    
+    <div class="container">
+        <div id="initialContent">
+            <h1>💕 For My Special Someone 💕</h1>
+            
+            <div class="photo-carousel">
+                <div class="photo-track" id="photoTrack">
+                    <!-- Replace these URLs with your Google Drive shared image links -->
+                    <div class="photo-card">
+                        <img src="https://via.placeholder.com/280x250/ffd6e8/e63946?text=Our+Memory+1" alt="Us together">
+                        <div class="photo-caption">Remember this day? ❤️</div>
+                    </div>
+                    <div class="photo-card">
+                        <img src="https://via.placeholder.com/280x250/ffd6e8/e63946?text=Our+Memory+2" alt="Us together">
+                        <div class="photo-caption">You make me smile 😊</div>
+                    </div>
+                    <div class="photo-card">
+                        <img src="https://via.placeholder.com/280x250/ffd6e8/e63946?text=Our+Memory+3" alt="Us together">
+                        <div class="photo-caption">Every moment with you 💑</div>
+                    </div>
+                    <div class="photo-card">
+                        <img src="https://via.placeholder.com/280x250/ffd6e8/e63946?text=Our+Memory+4" alt="Us together">
+                        <div class="photo-caption">My favorite person 💕</div>
+                    </div>
+                    <div class="photo-card">
+                        <img src="https://via.placeholder.com/280x250/ffd6e8/e63946?text=Our+Memory+5" alt="Us together">
+                        <div class="photo-caption">Forever and always 💖</div>
+                    </div>
+                </div>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+            
+            <p class="question">
+                Will you be my Valentine? 🌹
+            </p>
+            
+            <div class="button-container" id="buttonContainer">
+                <button id="yesBtn">Yes! 💖</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            <h2>🎉 You said YES! 🎉</h2>
+            <p>You've made me the happiest person! 💕</p>
+            <p style="font-size: 1.2em; color: var(--deep-rose); margin-top: 20px;">
+                I can't wait to celebrate Valentine's Day with you! 🥰
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Photo carousel functionality
+        let currentIndex = 0;
+        const photos = document.querySelectorAll('.photo-card');
+        const dotsContainer = document.getElementById('carouselDots');
+        
+        // Create dots
+        photos.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            if (index === currentIndex) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+        
+        function updateCarousel() {
+            const dots = document.querySelectorAll('.dot');
+            photos.forEach((photo, index) => {
+                photo.className = 'photo-card';
+                dots[index].classList.remove('active');
+                
+                const diff = index - currentIndex;
+                
+                if (diff === 0) {
+                    // Center photo
+                } else if (diff === 1 || (diff === -(photos.length - 1))) {
+                    photo.classList.add('photo-card');
+                    photo.style.transform = 'translateX(200px) translateZ(-100px) rotateY(-15deg) scale(0.85)';
+                    photo.style.opacity = '0.7';
+                    photo.style.zIndex = '1';
+                } else if (diff === -1 || (diff === photos.length - 1)) {
+                    photo.classList.add('photo-card');
+                    photo.style.transform = 'translateX(-200px) translateZ(-100px) rotateY(15deg) scale(0.85)';
+                    photo.style.opacity = '0.7';
+                    photo.style.zIndex = '1';
+                } else if (diff > 0) {
+                    photo.classList.add('hide-right');
+                } else {
+                    photo.classList.add('hide-left');
+                }
+            });
+            
+            dots[currentIndex].classList.add('active');
+        }
+        
+        function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+        
+        // Auto-rotate carousel
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % photos.length;
+            updateCarousel();
+        }, 3500);
+        
+        updateCarousel();
+        
+        // Floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            document.getElementById('heartBg').appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 20000);
+        }
+        
+        setInterval(createHeart, 800);
+        for(let i = 0; i < 10; i++) createHeart();
+        
+        // Button functionality
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const buttonContainer = document.getElementById('buttonContainer');
+        const initialContent = document.getElementById('initialContent');
+        const successMessage = document.getElementById('successMessage');
+        
+        let noBtnSize = 1;
+        
+        yesBtn.addEventListener('click', () => {
+            createConfetti();
+            initialContent.style.display = 'none';
+            successMessage.classList.add('show');
+        });
+        
+        // Make "No" button run away from cursor
+        noBtn.addEventListener('mouseenter', (e) => {
+            const container = buttonContainer.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            // Shrink the button each time
+            noBtnSize = Math.max(0.3, noBtnSize - 0.1);
+            noBtn.style.transform = `scale(${noBtnSize})`;
+            
+            // Calculate new random position
+            const maxX = container.width - btnRect.width;
+            const maxY = container.height - btnRect.height;
+            
+            const newX = Math.random() * maxX;
+            const newY = Math.random() * maxY;
+            
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+        });
+        
+        // Mobile: make button jump on touch
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const container = buttonContainer.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+            
+            noBtnSize = Math.max(0.3, noBtnSize - 0.1);
+            noBtn.style.transform = `scale(${noBtnSize})`;
+            
+            const maxX = container.width - btnRect.width;
+            const maxY = container.height - btnRect.height;
+            
+            const newX = Math.random() * maxX;
+            const newY = Math.random() * maxY;
+            
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+        });
+        
+        function createConfetti() {
+            const colors = ['#e63946', '#ff6b9d', '#ffd6e8', '#d4af37', '#ff8fab'];
+            
+            for(let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 30);
+            }
+        }
+    </script>
+</body>
+</html>
